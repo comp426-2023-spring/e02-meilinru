@@ -1,18 +1,99 @@
-async function getUsers() {
-    alert("getting result")
-    var endpoint = '/app/rps_random_result';
-    try {
-        let res = await fetch(endpoint);
-        return await res.json();
-    } catch (error) {
-        console.log(error);
+// If you would like to see some examples of similar code to make an interface interact with an API, 
+// check out the coin-server example from a previous COMP 426 semester.
+// https://github.com/jdmar3/coinserver
+
+function play(){
+    var rps = document.getElementById('rps');
+    var rpsls = document.getElementById('rpsls');
+    var opponent = document.getElementById('opponent');
+
+    if (opponent.checked && rps.checked){
+        window.location.href = "game-rps.html";
+    } 
+
+    if (opponent.checked && rpsls.checked){
+        window.location.href = "game-rpsls.html";
+    }
+
+    if (!opponent.checked && rps.checked){
+        rpsNoOpponent().then(shot => {
+            document.getElementById("no-opponent").value = shot.player;
+        })
+    }
+
+    if (!opponent.checked && rpsls.checked){
+        rpslsNoOpponent().then(shot => {
+            document.getElementById("no-opponent").value = shot.player;
+        })
     }
 }
-async function renderUsers() {
-    let users = await getUsers();
-    let html = `<div>${users}</div>`;
-    let container = document.querySelector('.container');
-    container.innerHTML = html;
+
+function rps(shot){
+    document.getElementById("player-shot").value = shot;
+
+    rpsOpponent(shot).then(someVal => {
+        result = someVal.result;
+        computerShot = someVal.opponent;
+        document.getElementById("result").value = result;
+        document.getElementById("opponent-shot").value = computerShot;
+    });
 }
 
-renderUsers();
+function rpsls(shot){
+    document.getElementById("rpsls-player-shot").value = shot;
+
+    rpslsOpponent(shot).then(someVal => {
+        result = someVal.result;
+        computerShot = someVal.opponent;
+        document.getElementById("rpsls-result").value = result;
+        document.getElementById("rpsls-opponent-shot").value = computerShot;
+    });    
+}
+
+function rpsNoOpponent() {
+    const url = "/app/rps"
+    return response = fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+        .catch(error => console.error(error));
+}
+
+function rpslsNoOpponent() {
+    const url = "/app/rpsls"
+    return response = fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+        .catch(error => console.error(error));
+}
+
+function rpsOpponent(shot) {
+    const url = "/app/rps/play/" + shot
+    return response = fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+        .catch(error => console.error(error));
+}
+
+function rpslsOpponent(shot) {
+    const url = "/app/rpsls/play/" + shot
+    return response = fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+        .catch(error => console.error(error));
+}
+
+function viewRules(){
+    window.location.href = "rules.html";
+}
+
+function home(){
+    window.location.href = "index.html";
+}
