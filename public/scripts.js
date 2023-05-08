@@ -44,7 +44,7 @@ const submit = (event) => {
         return res.json();
       })
       .then((json) => {
-        statusMessage.innerText = `You played: ${capitalize(json.player)}\nThe opponent played: ${capitalize(json.opponent)}\nResult: ${capitalize(json.result)}`;
+        statusMessage.innerText = `You played: ${capitalize(json.player)}\nYour opponent played: ${capitalize(json.opponent)}\nResult: ${capitalize(json.result)}`;
       })
       .catch((e) => {
         statusMessage.innerText = 'Something went wrong. Please try again!'
