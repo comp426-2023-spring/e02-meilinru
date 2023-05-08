@@ -1,27 +1,34 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Main Page</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <style>
-    body { padding-top: 50px; }
-    .button {
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
-  .button1 {background-color: #4CAF50;} /* Green */
-  .button2 {background-color: #008CBA;} /* Blue */
-  </style>
-</head>
-<body>
-  <h1>Which game would you like to play?</h1>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Paper Rock Scissors</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <script src="scripts.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Rock Paper Scissor</h1>
+        </header>
+        <form id="userinput" action="/submit">
+            <input type="checkbox" name="rps" id="rps">
+            <label class="home">Play Rock, Paper, Scissors?</label>
+            <br><br>
+            <input type="checkbox" name="rpsls" id="rpsls">
+            <label class="home">Play Rock, Paper, Scissors, Lizard, Spock?</label>
+            <br><br>
+            <input type="checkbox" name="opponent" id="opponent">
+            <label class="home">Playing against an opponent?</label>
+            <br><br>
+            <button type="submit" class="invisible">invisible</button>
+        </form>
+        <button type="button" class="function" id="play" onclick="play()">Play game!</button>
+        <button type="button" class="function" id="rules" onclick="viewRules()">View rules</button>
+        <br><br>
+        <h2>No Opponent Game</h2>
+        <form>
+            <input type="text" class="display" id="no-opponent" readonly>
+            <br>
+            <button type="submit" class="invisible">invisible</button>
+        </form>
+    </body>
 </html>
