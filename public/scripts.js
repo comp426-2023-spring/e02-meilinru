@@ -2,98 +2,80 @@
 // check out the coin-server example from a previous COMP 426 semester.
 // https://github.com/jdmar3/coinserver
 
-function play(){
-    var rps = document.getElementById('rps');
-    var rpsls = document.getElementById('rpsls');
-    var opponent = document.getElementById('opponent');
+const statusMessage = document.getElementById("status_message")
 
-    if (opponent.checked && rps.checked){
-        window.location.href = "game-rps.html";
-    } 
+const capitalize = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
-    if (opponent.checked && rpsls.checked){
-        window.location.href = "game-rpsls.html";
+const showOptions = (event) => {
+  document.getElementById("play_form").removeAttribute("hidden");
+
+  if(event.target.id === "rps") {
+    document.getElementById("extra_options").setAttribute("hidden", "true");
+  } else if (event.target.id === "rpsls") {
+    document.getElementById("extra_options").removeAttribute("hidden");
+  }
+
+  if(event.target.id === "random") {
+    document.getElementById("opponent_options").setAttribute("hidden", "true");
+    document.getElementById("random_options").removeAttribute("hidden");
+  } else if(event.target.id === "opponent") {
+    document.getElementById("random_options").setAttribute("hidden", "true");
+    document.getElementById("opponent_options").removeAttribute("hidden");
+  }
+}
+
+const resetOptions = () => {
+  document.getElementById("play_form").setAttribute("hidden", "true");
+  document.getElementById("opponent_options").setAttribute("hidden", "true");
+  document.getElementById("random_options").setAttribute("hidden", "true");
+  document.getElementById("extra_options").setAttribute("hidden", "true");
+}
+
+const submit = (event) => {
+  const gameType = document.querySelector('input[name="game_type"]:checked')?.value;
+  const playstyle = document.querySelector('input[name="playstyle"]:checked')?.value;
+
+  if(gameType && playstyle) {
+    const getData = (player) => {
+      fetch(`/app/${gameType}/play/${player}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        statusMessage.innerText = `You played: ${capitalize(json.player)}\nThe opponent played: ${capitalize(json.opponent)}\nResult: ${capitalize(json.result)}`;
+      })
+      .catch((e) => {
+        statusMessage.innerText = 'Something went wrong. Please try again!'
+      });
     }
-
-    if (!opponent.checked && rps.checked){
-        rpsNoOpponent().then(shot => {
-            document.getElementById("no-opponent").value = shot.player;
-        })
+    if(playstyle === "opponent") {
+      getData(document.querySelector('input[name="player_option"]:checked')?.value);
+    } else {
+      fetch(`/app/${gameType}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        getData(json.player);
+      })
     }
-
-    if (!opponent.checked && rpsls.checked){
-        rpslsNoOpponent().then(shot => {
-            document.getElementById("no-opponent").value = shot.player;
-        })
-    }
+  }
 }
 
-function rps(shot){
-    document.getElementById("player-shot").value = shot;
+const rulesModal = document.getElementById("how_to_play");
+const openRulesButton = document.getElementById("show_rules");
+const closeRulesButton = document.getElementById("close_rules");
+const gameSelect = document.getElementById("form");
+const randomSubmitButton = document.getElementById("random_submit");
+const opponentSubmitButton = document.getElementById("opponent_submit");
 
-    rpsOpponent(shot).then(someVal => {
-        result = someVal.result;
-        computerShot = someVal.opponent;
-        document.getElementById("result").value = result;
-        document.getElementById("opponent-shot").value = computerShot;
-    });
-}
+gameSelect.addEventListener("input", showOptions);
+gameSelect.addEventListener("reset", resetOptions);
 
-function rpsls(shot){
-    document.getElementById("rpsls-player-shot").value = shot;
+randomSubmitButton.addEventListener("click", submit);
+opponentSubmitButton.addEventListener("click", submit);
 
-    rpslsOpponent(shot).then(someVal => {
-        result = someVal.result;
-        computerShot = someVal.opponent;
-        document.getElementById("rpsls-result").value = result;
-        document.getElementById("rpsls-opponent-shot").value = computerShot;
-    });    
-}
-
-function rpsNoOpponent() {
-    const url = "/app/rps"
-    return response = fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            return data;
-        })
-        .catch(error => console.error(error));
-}
-
-function rpslsNoOpponent() {
-    const url = "/app/rpsls"
-    return response = fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            return data;
-        })
-        .catch(error => console.error(error));
-}
-
-function rpsOpponent(shot) {
-    const url = "/app/rps/play/" + shot
-    return response = fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            return data;
-        })
-        .catch(error => console.error(error));
-}
-
-function rpslsOpponent(shot) {
-    const url = "/app/rpsls/play/" + shot
-    return response = fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            return data;
-        })
-        .catch(error => console.error(error));
-}
-
-function viewRules(){
-    window.location.href = "rules.html";
-}
-
-function home(){
-    window.location.href = "index.html";
-}
+openRulesButton.addEventListener("click", () => rulesModal.style.display = "block");
+closeRulesButton.addEventListener("click", () => rulesModal.style.display = "none")
