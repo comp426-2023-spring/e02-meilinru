@@ -12,9 +12,9 @@
     <!-- Your interface markup goes here -->
     <!-- For interface examples, look in the `/examples/` directory in the root of your starter code repo. -->
 
-    <h1>Welcome to Rock Paper Scissors (Lizard Spock)</h1>
+    <h1>Play Rock Paper Scissors (Lizard Spock)</h1>
 
-    <button id="show_rules" type="button">Show Rules</button>
+    <button id="show_rules" type="button">Rules of the Game</button>
 
     <div id="how_to_play" class="modal">
         <div class="modal-content">
@@ -40,15 +40,15 @@
 
     <form id="form">
         <input type="radio" id="rps" name="game_type" value="rps">
-        <label for="rps">Play RPS</label><br>
+        <label for="rps">Play Rock Paper Scissors</label><br>
         <input type="radio" id="rpsls" name="game_type" value="rpsls">
-        <label for="rpsls">Play RPSLS</label><br>
+        <label for="rpsls">Play Rock Paper Scissors Lizard Spock</label><br>
 
         <div id="play_form" hidden>
             <input type="radio" id="random" name="playstyle" value="random">
-            <label for="random">Play with a random option</label><br>
+            <label for="random">Play random draw</label><br>
             <input type="radio" id="opponent" name="playstyle" value="opponent">
-            <label for="opponent">Play with a specific option</label><br>
+            <label for="opponent">Play an opponent</label><br>
             <br>
             <div id="opponent_options" hidden>
                 <input type="radio" id="rock" name="player_option" value="rock">
@@ -66,7 +66,7 @@
                 <button type="button" id="opponent_submit">Play move</button>
             </div>
             <div id="random_options" hidden>
-                <button type="button" id="random_submit">Play a random move</button>
+                <button type="button" id="random_submit">Play random move</button>
             </div>
         </div>
         <button type="reset" id="reset">Reset</button>
