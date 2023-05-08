@@ -26,7 +26,7 @@ button {
 }
 
 .modal-content {
-  background-color: rgb(0,0,0);
+  background-color: #2e2e2e;
   margin: 2% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
@@ -34,7 +34,7 @@ button {
 }
 
 .close {
-  color: rgb(0,0,0);
+  color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
